@@ -26,30 +26,6 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public double[] downloadStockPrices(String company) throws IOException {
-        String website = "https://query1.finance.yahoo.com/v7/finance/download/" +
-                company+"?period1=1262322000&period2=1451538000&interval=1mo&" +
-                "events=history&includeAdjustedClose=true";
-        URL download_data = new URL(website);
-        URLConnection data = download_data.openConnection();
-        Scanner input = new Scanner(data.getInputStream());
-
-
-        double stock_data[]=new double[80];
-        boolean hasnext = true;
-        int count=0;
-        while (input.hasNext()){
-            if(hasnext == true){
-                input.nextLine();
-                hasnext=false;
-            }
-            String list[]=input.nextLine().split(",");
-            stock_data[count] =Double.parseDouble(list[5]);
-            count++;
-        }
-        return stock_data;
-    }
-
     public void plotLine(Color color,double stock[],GraphicsContext gc){
         for(int i=0;i<71;i++){
             double a = 50+i*12;
@@ -61,6 +37,31 @@ public class Main extends Application {
             gc.stroke();
 
         }
+    }
+    public double[] downloadStockPrices(String company) throws IOException {
+        String website = "https://query1.finance.yahoo.com/v7/finance/download/" +
+                company+"?period1=1262322000&period2=1451538000&interval=1mo&" +
+                "events=history&includeAdjustedClose=true";
+        URL download_data = new URL(website);
+        URLConnection data = download_data.openConnection();
+        Scanner write = new Scanner(data.getInputStream());
+
+
+        double stock_data[]=new double[80];
+        boolean hasnext = true;
+        int count=0;
+        while (write.hasNext()){
+            if(hasnext == true){
+                write.nextLine();
+                hasnext=false;
+            }
+            if(hasnext == false){
+                String list[]=write.nextLine().split(",");
+                stock_data[count] =Double.parseDouble(list[5]);
+                count++;
+            }
+        }
+        return stock_data;
     }
 
     Canvas canvas = new Canvas(1000,1000);
