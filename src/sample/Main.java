@@ -49,7 +49,7 @@ public class Main extends Application {
 
         double stock_data[]=new double[80];
         boolean hasnext = true;
-        int count=0;
+        int index=0;
         while (write.hasNext()){
             if(hasnext == true){
                 write.nextLine();
@@ -57,8 +57,8 @@ public class Main extends Application {
             }
             if(hasnext == false){
                 String list[]=write.nextLine().split(",");
-                stock_data[count] =Double.parseDouble(list[5]);
-                count++;
+                stock_data[index] =Double.parseDouble(list[5]);
+                index++;
             }
         }
         return stock_data;
